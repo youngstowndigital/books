@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import '../App.css';
 import axios from 'axios';
 
-const ShowBookDetails = ({ match: { params } }) => {
+const ShowBookDetails = ({ match: { params }, history }) => {
     const [book, setBook] = useState({});
 
     useEffect(() => {
@@ -12,7 +12,11 @@ const ShowBookDetails = ({ match: { params } }) => {
             .catch(err => console.error('Book could not load'));
     }, []);
 
-    const onDeleteClick = (e) => e.preventDefault();
+    const onDeleteClick = (id) => {
+        axios.delete(`http://localhost:8082/api/books/${id}`)
+            .then(res => history.push('/'))
+            .catch(err => console.error('Error deleting book'));
+    }
 
     let BookItem = <div>
       <table className="table table-hover table-dark">
@@ -48,7 +52,7 @@ const ShowBookDetails = ({ match: { params } }) => {
           <tr>
             <th scope="row">5</th>
             <td>Published Date</td>
-            <td>{ book.published_date }</td>
+            <td>{ book.published_at }</td>
           </tr>
           <tr>
             <th scope="row">6</th>
