@@ -18,7 +18,17 @@ const CreateBook = () => {
     const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });
 
     const onSubmit = e => {
-        e.preventDefaul();
+        e.preventDefault();
+        axios.post('http://localhost:8082/api/books', formData)
+            .then(res => setFormData({
+                title: '',
+                isbn:'',
+                author:'',
+                description:'',
+                published_date:'',
+                publisher:''
+            }))
+            .catch(err => console.error("Error in CreateBook!"));
     }
 
     return (
