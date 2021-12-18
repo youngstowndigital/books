@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 
-const UpdateBookInfo = ({ match: { params } }) => {
+const UpdateBookInfo = ({ match: { params }, history }) => {
     const [formData, setFormData] = useState({
         title: '',
         isbn: '',
@@ -24,6 +24,10 @@ const UpdateBookInfo = ({ match: { params } }) => {
 
     const onSubmit = e => {
         e.preventDefault();
+
+        axios.put(`http://localhost:8082/api/books/${params.id}`, formData)
+            .then(res => history.push(`/show-book/${params.id}`))
+            .catch(err => console.error(err.message));
     }
 
     return (
