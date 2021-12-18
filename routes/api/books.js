@@ -25,8 +25,11 @@ router.post('/', (req, res) => {
 
 router.put('/:id', (req, res) => {
     Book.findByIdAndUpdate(req.params.id, req.body)
-        .then(book => res.params.json(book))
-        .catch(err => res.status(400).json({ error: 'Unable to update book' }));
+        .then(book => res.json(book))
+        .catch(err => {
+            console.log(err.message);
+            res.status(400).json({ error: err.message });
+        });
 });
 
 router.delete('/:id', (req, res) => {
